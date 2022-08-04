@@ -1,6 +1,6 @@
 from  sqlalchemy import create_engine, text
 
-db_connection_string = "mysql+mysqldb://hvmrn158mty9:pscale_pw_G6vypY6vHxDLH1ulHldbwspseXd3lgOr7EhY2m02gWY@cgykdct4ixka.us-east-3.psdb.cloud/joviancareers"
+db_connection_string = "mysql+mysqldb://iwoick8e8o9j:pscale_pw_J9cSS6_UbfomNGYlrG2D0BLfzzSDmRP4v4zqRXM2WQ0@cgykdct4ixka.us-east-3.psdb.cloud/joviancareers"
 
 engine = create_engine(db_connection_string,
                     connect_args={   "ssl": {
@@ -20,11 +20,13 @@ def load_jobs_from_db():
   return jobs
 
 
-# with engine.connect() as con:
-#   result = con.execute('SELECT * FROM jobs')
-  
-#   row_dict = []
-#   for row in result.all():
-#     row_dict.append(dict(row))
+def load_job_from_db(id): 
+  with engine.connect() as con:
+    result = con.execute(text('SELECT * FROM jobs WHERE id = :var'),
+    var = id )
 
-# print(row_dict)
+    rows = result.all()
+    if len(rows)==0:
+      return None
+    else:
+      return dict(rows[0])
